@@ -1,4 +1,5 @@
 import axios from "axios";
+<<<<<<< HEAD
 import config from "../config.json";
 
 
@@ -11,3 +12,10 @@ export async function getGenres() {
   return Genres;
 }
 
+=======
+
+export async function getGenres() {
+  const get_movies = await axios.get("http://localhost:8000/api/genres");
+  return get_movies.data.sucess;
+}
+>>>>>>> 647ac59dd2d26e4e1cb8d20dafcce799b029b70f

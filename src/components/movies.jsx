@@ -24,12 +24,18 @@ class Movie extends Component {
   };
 
   async componentDidMount() {
+<<<<<<< HEAD
     const get_genres = await getGenres();
     const genres = [{name:"All Genres",_id:0}, ...get_genres];
+=======
+    const get_Genres = await getGenres();
+    const genres = [{ name: "All Genres" }, ...get_Genres];
+>>>>>>> 647ac59dd2d26e4e1cb8d20dafcce799b029b70f
     const get_Movies = await getMovies();
     this.setState({ movies: get_Movies, genres });
   }
 
+<<<<<<< HEAD
   handleDelete = async id => {
     const orginalMovies = this.state.movies;
     const movies = orginalMovies.filter(movie => movie._id !== id);
@@ -42,6 +48,11 @@ class Movie extends Component {
         window.alert("Movie already deleted from the database");
       this.setState({ movies: orginalMovies });
     }
+=======
+  handleDelete = id => {
+    deleteMovie(id);
+    this.setState({ movies: getMovies() });
+>>>>>>> 647ac59dd2d26e4e1cb8d20dafcce799b029b70f
   };
 
   handleSearch = query => {
@@ -49,6 +60,7 @@ class Movie extends Component {
   };
 
   handleLike = movie => {
+<<<<<<< HEAD
     const orginalMovies = this.state.movies;
     let movieIndex = orginalMovies.findIndex(i => i._id === movie._id);
 
@@ -57,6 +69,11 @@ class Movie extends Component {
 
     orginalMovies[movieIndex] = movie;
     this.setState({ movies: orginalMovies });
+=======
+    if (!movie.liked) movie.liked = true;
+    else movie.liked = false;
+    this.setState({ movies: getMovies() });
+>>>>>>> 647ac59dd2d26e4e1cb8d20dafcce799b029b70f
   };
 
   handlePagination = page => {
