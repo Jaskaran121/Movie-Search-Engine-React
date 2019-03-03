@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Form from "./form";
 import Joi from "joi-browser";
+import {registerUser} from "../services/userService";
+
 class Register extends Form {
   state = {
     data: { username: "", password: "", name: "" },
@@ -21,8 +23,14 @@ class Register extends Form {
       .label("Name")
   };
 
-  doSubmit = () => {
-    console.log("submitted");
+  doSubmit = async () => {
+    try{
+      await registerUser(this.state.data);
+    }
+    catch(ex){
+      if(ex.response && ex.response.status === 400)
+      window.alert("User Already Exists");  
+    }
   };
 
   render() {

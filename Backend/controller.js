@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Movie = require("./movies");
+const Users = require("./users");
 app.use(bodyParser.urlencoded({
   extended: false
 }));
@@ -11,7 +12,7 @@ app.use(express.static(__dirname + "/client"));
 app.use(bodyParser.json());
 
 Genre = require("./genres");
-
+mongoose.set('useCreateIndex', true);
 // Connect to Mongoose
 mongoose.connect("mongodb://localhost/movieDB", { useNewUrlParser: true });
 var db = mongoose.connection;
@@ -73,6 +74,24 @@ app.get("/api/movie/:id",(req,res)=>{
     res.status(400).json({error:"Not able to fetch data"});
   })
 })
+
+
+//registering user
+app.post("/api/user/register",(req,res)=>{
+Users.registerUser(req.body.name,req.body.email,req.body.password,function(type){
+  if(type=="Success")
+    res.status(200).json({success:"User Registered Successfully"});
+    else
+    res.status(400).json({error:"Duplicate User Already Exists"});
+})
+})
+
+app.get("/api/users", (req, res) => {
+  Users.getUsers(function(err, result) {
+    if (!err) res.status(200).json({ success: result });
+    else res.status(400).json({ error: "Not able to get Values" });
+  });
+});
 
 app.listen(3900);
 console.log("Running on port 3900...");

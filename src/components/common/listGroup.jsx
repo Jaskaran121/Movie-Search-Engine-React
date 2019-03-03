@@ -21,10 +21,7 @@ const ListGroup = props => {
             ? "list-group-item active"
             : "list-group-item"
         }
-<<<<<<< HEAD
        
-=======
->>>>>>> 647ac59dd2d26e4e1cb8d20dafcce799b029b70f
       >
         {genre.name}
       </li>

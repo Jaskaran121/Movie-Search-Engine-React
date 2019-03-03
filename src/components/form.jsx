@@ -30,11 +30,7 @@ class Form extends Component {
     e.preventDefault();
     const errors = this.validate();
     this.setState({ errors: {} || errors });
-<<<<<<< HEAD
     //if (errors !== null) return;
-=======
-    if (errors !== null) return;
->>>>>>> 647ac59dd2d26e4e1cb8d20dafcce799b029b70f
     this.doSubmit();
   };
 
@@ -65,11 +61,7 @@ class Form extends Component {
   renderButton = label => {
     return (
       <button
-<<<<<<< HEAD
         //disabled={this.validate()}
-=======
-        disabled={this.validate()}
->>>>>>> 647ac59dd2d26e4e1cb8d20dafcce799b029b70f
         className="btn-primary primary btn-lg"
         style={{ marginLeft: "1%" }}
       >
@@ -80,18 +72,11 @@ class Form extends Component {
 
   renderSelect(name, label, options) {
     const { data, errors } = this.state;
-<<<<<<< HEAD
-=======
-
->>>>>>> 647ac59dd2d26e4e1cb8d20dafcce799b029b70f
     return (
       <Select
         name={name}
         label={label}
-<<<<<<< HEAD
         //value ={data[name]}
-=======
->>>>>>> 647ac59dd2d26e4e1cb8d20dafcce799b029b70f
         options={options}
         onChange={this.handleChange}
         error={errors[name]}
