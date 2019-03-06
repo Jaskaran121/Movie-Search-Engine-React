@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const jwt = require("jsonwebtoken");
 //User Schema
 const usersSchema = new mongoose.Schema({
     name: {
@@ -20,6 +20,18 @@ const usersSchema = new mongoose.Schema({
 })
 
 const User = mongoose.model("users",usersSchema);
+
+usersSchema.methods.generateAuthToken = function() {
+    const token = jwt.sign(
+      {
+        _id: this._id,
+        name: this.name,
+        email: this.email
+      },
+      'PrivateKey'
+    );
+    return token;
+  };
 
 //Registering new user
 module.exports.registerUser = async (name,email,password,callback) =>{
@@ -46,3 +58,6 @@ if(check){
 module.exports.getUsers = (callback) =>{
     User.find({},callback).select('-password');
 }
+
+module.exports.generateAuthToken = usersSchema.methods.generateAuthToken;
+module.exports.User = User;

@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Movie = require("./movies");
 const Users = require("./users");
+const Auth = require("./auth");
 app.use(bodyParser.urlencoded({
   extended: false
 }));
@@ -92,6 +93,16 @@ app.get("/api/users", (req, res) => {
     else res.status(400).json({ error: "Not able to get Values" });
   });
 });
+
+app.post("/api/login",(req,res) =>{
+  Auth.login(req.body.email,req.body.password,function(type,result){
+    if(type==="Success")
+      res.status(200).json({Success:result});
+      else
+      res.status(400).json({error:result});
+  })
+})
+
 
 app.listen(3900);
 console.log("Running on port 3900...");
