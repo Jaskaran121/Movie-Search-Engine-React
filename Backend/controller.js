@@ -79,9 +79,9 @@ app.get("/api/movie/:id",(req,res)=>{
 
 //registering user
 app.post("/api/user/register",(req,res)=>{
-Users.registerUser(req.body.name,req.body.email,req.body.password,function(type){
+Users.registerUser(req.body.name,req.body.email,req.body.password,function(type,token){
   if(type=="Success")
-    res.status(200).json({success:"User Registered Successfully"});
+    res.status(200).json({data:token});
     else
     res.status(400).json({error:"Duplicate User Already Exists"});
 })
@@ -97,9 +97,9 @@ app.get("/api/users", (req, res) => {
 app.post("/api/login",(req,res) =>{
   Auth.login(req.body.email,req.body.password,function(type,result){
     if(type==="Success")
-      res.status(200).json({Success:result});
+      res.status(200).json({data:result});
       else
-      res.status(400).json({error:result});
+      res.status(400).json({data:result});
   })
 })
 

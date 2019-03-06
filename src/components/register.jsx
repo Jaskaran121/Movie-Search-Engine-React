@@ -25,7 +25,9 @@ class Register extends Form {
 
   doSubmit = async () => {
     try{
-      await registerUser(this.state.data);
+      const jwt = await registerUser(this.state.data);
+      localStorage.setItem('token',jwt.data);
+      this.props.history.push('/');
     }
     catch(ex){
       if(ex.response && ex.response.status === 400)

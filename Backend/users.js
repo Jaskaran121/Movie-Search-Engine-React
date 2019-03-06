@@ -35,24 +35,22 @@ usersSchema.methods.generateAuthToken = function() {
 
 //Registering new user
 module.exports.registerUser = async (name,email,password,callback) =>{
-
-
-const check = await User.findOne({email:email});
-
-if(check){
+try{
+    await User.findOne({email:email});
+}
+catch(ex){
     callback("error");
-    }
-       
+}
+
+try{
     const newUser = new User({name:name,email:email,password:password});
-    const result = await newUser.save();
-
-    if(result){
-        callback("Success");
-    }
-    else
-        callback("error");
-
-
+    await newUser.save();
+    const token = usersSchema.methods.generateAuthToken();
+    callback('Success',token);
+   }
+catch(ex){
+       callback('error');
+   }
 }
 
 module.exports.getUsers = (callback) =>{
