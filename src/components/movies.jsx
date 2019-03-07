@@ -101,8 +101,8 @@ class Movie extends Component {
 
     const paginatedData = paginate(sortedMovies, currentPage, pageSize);
 
-    if (this.state.movies.length === 0)
-      return <h1>No movie in the database</h1>;
+    // if (this.state.movies.length === 0)
+    //  return <h1>No movie in the database</h1>;
 
     return (
       <div>

@@ -10,23 +10,38 @@ import Login from "./components/login";
 import Register from "./components/register";
 import MovieForm from "./components/movieForm";
 import MovieDetails from "./components/movieDetails";
+import jwtDecode from "jwt-decode";
+import Logout from "./components/logout";
 class App extends Component {
+  state = { };
+
+  componentDidMount(){
+    try{
+      const jwt = localStorage.getItem("token");
+      const user = jwtDecode(jwt);
+      this.setState({user});
+    }
+    catch{
+    } 
+  }
+
   render() {
     return (
       <React.Fragment>
-        <NavBar />
+        <NavBar user = {this.state.user}/>
         <div className="content">
           <Switch>
             <Route path="/movies/new" component={MovieForm} />
             <Route path="/movies/:id" component={MovieDetails} />
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
+            <Route path="/logout" component={Logout} />
             <Route path="/movies" exact component={Movies} />
             <Route path="/customers" component={Customers} />
             <Route path="/rentals" component={Rentals} />
             <Route path="/not-found" component={NotFound} />
             <Redirect from="/" exact to="/movies" />
-            <Redirect to="/not- found" />
+            <Redirect to="/not-found" />
           </Switch>
         </div>
       </React.Fragment>

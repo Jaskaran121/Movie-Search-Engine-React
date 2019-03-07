@@ -22,7 +22,7 @@ class Login extends Form {
       const { data } = this.state;
       const jwt = await login(data.username,data.password);
       localStorage.setItem('token',jwt.data);
-      this.props.history.push('/');
+      window.location ="/";
     }
     catch(ex)
     {

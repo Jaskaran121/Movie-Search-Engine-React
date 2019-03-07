@@ -10,6 +10,7 @@ class NavBar extends Component {
     );
   };
   render() {
+    const {user} = this.props;
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand">React</a>
@@ -29,8 +30,16 @@ class NavBar extends Component {
             {this.renderNavLink("Movies", "/movies")}
             {this.renderNavLink("Customers", "/customers")}
             {this.renderNavLink("Rentals", "/rentals")}
+            {!user && <React.Fragment>
             {this.renderNavLink("Login", "/login")}
             {this.renderNavLink("Register", "/register")}
+            </React.Fragment>
+            }
+            {user && <React.Fragment>
+            {this.renderNavLink(user.name, "/profile")}
+            {this.renderNavLink("Logout", "/logout")}
+            </React.Fragment>
+            }
           </div>
         </div>
       </nav>

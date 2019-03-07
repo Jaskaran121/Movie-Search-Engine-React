@@ -27,7 +27,7 @@ class Register extends Form {
     try{
       const jwt = await registerUser(this.state.data);
       localStorage.setItem('token',jwt.data);
-      this.props.history.push('/');
+      window.location = "/";
     }
     catch(ex){
       if(ex.response && ex.response.status === 400)
