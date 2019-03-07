@@ -21,12 +21,12 @@ const usersSchema = new mongoose.Schema({
 
 const User = mongoose.model("users",usersSchema);
 
-usersSchema.methods.generateAuthToken = function() {
+function generateAuthToken(user) {
     const token = jwt.sign(
       {
-        _id: this._id,
-        name: this.name,
-        email: this.email
+        _id: user._id,
+        name: user.name,
+        email: user.email
       },
       'PrivateKey'
     );
@@ -45,7 +45,7 @@ catch(ex){
 try{
     const newUser = new User({name:name,email:email,password:password});
     await newUser.save();
-    const token = usersSchema.methods.generateAuthToken();
+    const token = generateAuthToken(newUser);
     callback('Success',token);
    }
 catch(ex){
@@ -57,5 +57,5 @@ module.exports.getUsers = (callback) =>{
     User.find({},callback).select('-password');
 }
 
-module.exports.generateAuthToken = usersSchema.methods.generateAuthToken;
+module.exports.generateAuthToken = generateAuthToken;
 module.exports.User = User;
