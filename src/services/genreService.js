@@ -4,7 +4,7 @@ import config from "../config.json";
 
 export async function getGenres() {
   var Genres = [];
-  const get_Genres = await axios.get("http://localhost:3900/api/genres");
+  const get_Genres = await axios.get(`${config.apiUrl}/genres`);
   get_Genres.data.sucess.forEach(element => {
     Genres.push(element);
   });
