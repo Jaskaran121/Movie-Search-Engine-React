@@ -1,7 +1,6 @@
 import { getGenres } from "./genreService";
 import axios from "axios";
 import config from "../config.json";
-const movies = [];
 
 export async function getMovies() {
   const get_movies = await axios.get(`${config.apiUrl}/movies`);
@@ -18,8 +17,7 @@ export async function saveMovie(movie) {
       "genreId": movie.genreId,
       "genreName":name.name
   })
-  return new_Movie;
-   
+  return new_Movie;   
 }
 
 export async function getMovie(movieId) {

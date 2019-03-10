@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const Movie = require("./movies");
 const Users = require("./users");
 const Auth = require("./auth");
+const jwt = require('jsonwebtoken');
+const config = require("./config.json");
 app.use(bodyParser.urlencoded({
   extended: false
 }));
@@ -22,14 +24,14 @@ app.get("/", (req, res) => {
   res.send("Please use /api/books or /api/genres");
 });
 
-app.get("/api/genres", (req, res) => {
+app.get("/api/genres",verifyToken, (req, res) => {
   Genre.getGenres(10, function(err, result) {
     if (!err) res.status(200).json({ sucess: result });
     else res.status(400).json({ error: "Not able to get Values" });
   });
 });
 
-app.get("/api/movies", (req, res) => {
+app.get("/api/movies", verifyToken,(req, res) => {
   Movie.getMovies(100, function(err, result) {
     if (!err) res.status(200).json({ sucess: result });
     else res.status(400).json({ error: "Not able to get Values" });
@@ -37,7 +39,7 @@ app.get("/api/movies", (req, res) => {
 });
 
 
-app.delete("/api/movie/delete/:id", (req, res) => {
+app.delete("/api/movie/delete/:id", verifyToken,(req, res) => {
   Movie.deleteMovie(req.params.id, function(type) {
     if (type === "success")
       res.status(200).json({ success: "Movie deleted Successfully" });
@@ -46,7 +48,7 @@ app.delete("/api/movie/delete/:id", (req, res) => {
 });
 
 //adding new movie
-app.post("/api/movie/insert",(req,res) =>{
+app.post("/api/movie/insert",verifyToken,(req,res) =>{
   Movie.insertMovie(req.body.title,req.body.numberInStock,req.body.dailyRentalRate,
     req.body.genreId,req.body.genreName,function(type){
       if(type==="Success")
@@ -57,7 +59,7 @@ app.post("/api/movie/insert",(req,res) =>{
 })
 
 //Editing old movie
-app.put("/api/movie/:id",(req,res) =>{
+app.put("/api/movie/:id",verifyToken,(req,res) =>{
   Movie.editMovie(req.params.id,req.body.title,req.body.numberInStock,req.body.dailyRentalRate,
     req.body.genreId,function(type){
       if(type==="Success")
@@ -68,7 +70,7 @@ app.put("/api/movie/:id",(req,res) =>{
 })
 
 //getting a single movie
-app.get("/api/movie/:id",(req,res)=>{
+app.get("/api/movie/:id",verifyToken,(req,res)=>{
   Movie.getMovie(req.params.id,function(err,result){
     if(!err) res.status(200).json({success:result});
     else
@@ -87,7 +89,7 @@ Users.registerUser(req.body.name,req.body.email,req.body.password,function(type,
 })
 })
 
-app.get("/api/users", (req, res) => {
+app.get("/api/users", verifyToken,(req, res) => {
   Users.getUsers(function(err, result) {
     if (!err) res.status(200).json({ success: result });
     else res.status(400).json({ error: "Not able to get Values" });
@@ -103,6 +105,26 @@ app.post("/api/login",(req,res) =>{
   })
 })
 
-
+//Format of bearer header 
+// Authorization: Bearer <access_Token> 
+function verifyToken(req,res,next){
+  const bearerHeader = req.headers['authorization'];
+  if(typeof bearerHeader !== 'undefined')
+  {
+    const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
+    req.Token = bearerToken;
+    try{
+      const decoded = jwt.verify(req.Token,config.key);
+      req.user = decoded;
+      next();
+    }catch(ex){
+      res.status(401).json({Message:"Invalid Token"})
+    }
+  }
+  else{
+    res.status(403).json({Message:"Acess Denied No Token Provided"});
+  }
+}
 app.listen(3900);
 console.log("Running on port 3900...");
