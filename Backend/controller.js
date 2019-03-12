@@ -7,6 +7,7 @@ const Users = require("./users");
 const Auth = require("./auth");
 const jwt = require('jsonwebtoken');
 const config = require("./config.json");
+
 app.use(bodyParser.urlencoded({
   extended: false
 }));
@@ -24,14 +25,14 @@ app.get("/", (req, res) => {
   res.send("Please use /api/books or /api/genres");
 });
 
-app.get("/api/genres",verifyToken, (req, res) => {
+app.get("/api/genres", (req, res) => {
   Genre.getGenres(10, function(err, result) {
     if (!err) res.status(200).json({ sucess: result });
     else res.status(400).json({ error: "Not able to get Values" });
   });
 });
 
-app.get("/api/movies", verifyToken,(req, res) => {
+app.get("/api/movies",(req, res) => {
   Movie.getMovies(100, function(err, result) {
     if (!err) res.status(200).json({ sucess: result });
     else res.status(400).json({ error: "Not able to get Values" });
@@ -49,6 +50,7 @@ app.delete("/api/movie/delete/:id", verifyToken,(req, res) => {
 
 //adding new movie
 app.post("/api/movie/insert",verifyToken,(req,res) =>{
+  
   Movie.insertMovie(req.body.title,req.body.numberInStock,req.body.dailyRentalRate,
     req.body.genreId,req.body.genreName,function(type){
       if(type==="Success")
@@ -109,16 +111,15 @@ app.post("/api/login",(req,res) =>{
 // Authorization: Bearer <access_Token> 
 function verifyToken(req,res,next){
   const bearerHeader = req.headers['authorization'];
+  console.log(bearerHeader);
   if(typeof bearerHeader !== 'undefined')
   {
-    const bearer = bearerHeader.split(' ');
-    const bearerToken = bearer[1];
-    req.Token = bearerToken;
+    req.Token = bearerHeader;
     try{
       const decoded = jwt.verify(req.Token,config.key);
       req.user = decoded;
       next();
-    }catch(ex){
+    } catch(ex){
       res.status(401).json({Message:"Invalid Token"})
     }
   }

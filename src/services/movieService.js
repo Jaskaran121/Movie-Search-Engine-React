@@ -2,6 +2,9 @@ import { getGenres } from "./genreService";
 import axios from "axios";
 import config from "../config.json";
 
+axios.defaults.headers.post['authorization'] = localStorage.token;
+axios.defaults.headers.delete['authorization'] = localStorage.token;
+
 export async function getMovies() {
   const get_movies = await axios.get(`${config.apiUrl}/movies`);
   return get_movies.data.sucess;

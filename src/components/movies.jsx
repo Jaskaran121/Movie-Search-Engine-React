@@ -40,6 +40,8 @@ class Movie extends Component {
     } catch (ex) {
       if (ex.response && ex.response.status === 400)
         window.alert("Movie already deleted from the database");
+        if (ex.response && ex.response.status === 401 || ex.response.status ===403)
+        window.alert("Please Login First");
       this.setState({ movies: orginalMovies });
     }
   };

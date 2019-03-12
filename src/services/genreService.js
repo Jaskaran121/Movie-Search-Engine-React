@@ -2,6 +2,7 @@ import axios from "axios";
 import config from "../config.json";
 
 
+
 export async function getGenres() {
   var Genres = [];
   const get_Genres = await axios.get(`${config.apiUrl}/genres`);
