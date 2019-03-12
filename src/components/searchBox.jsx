@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Input from "./common/input";
+
 class SearchBox extends Component {
   state = {
     data: {},

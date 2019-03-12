@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import Form from "./form";
 import Joi from "joi-browser";
 import { getGenres } from "../services/genreService";
-import {getMovie,saveMovie} from "./../services/movieService";
+import {saveMovie} from "./../services/movieService";
 class MovieForm extends Form {
   state = {
     data: {
@@ -67,7 +67,7 @@ class MovieForm extends Form {
     }
     catch(ex)
     {
-      if(ex.response && ex.response.status === 401 || ex.response.status ===403)
+      if(ex.response && (ex.response.status === 401 || ex.response.status ===403))
       window.alert("Login First");
     }
   };

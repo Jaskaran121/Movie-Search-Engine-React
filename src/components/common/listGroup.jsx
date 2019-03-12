@@ -1,12 +1,10 @@
-import React, { Component } from "react";
-import _ from "lodash";
+import React from "react";
 
 const ListGroup = props => {
   const {
     items: genres,
     onItemSelect,
     textProperty,
-    valueProperty,
     selectedGenre
   } = props;
   return genres.map(genre => (

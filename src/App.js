@@ -8,6 +8,7 @@ import Movies from "./components/movies";
 import NotFound from "./components/common/notFound";
 import Login from "./components/login";
 import Register from "./components/register";
+import ProtectedRoute from "../src/components/common/protectedRoute";
 import MovieForm from "./components/movieForm";
 import MovieDetails from "./components/movieDetails";
 import jwtDecode from "jwt-decode";
@@ -31,12 +32,13 @@ class App extends Component {
         <NavBar user = {this.state.user}/>
         <div className="content">
           <Switch>
-            <Route path="/movies/new" component={MovieForm} />
+            <ProtectedRoute path="/movies/new" component = {MovieForm} user={this.state.user}></ProtectedRoute>
             <Route path="/movies/:id" component={MovieDetails} />
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
-            <Route path="/movies" exact component={Movies} />
+            <Route path="/movies" exact 
+            render = {props => <Movies {...props} user = {this.state.user}/>} />
             <Route path="/customers" component={Customers} />
             <Route path="/rentals" component={Rentals} />
             <Route path="/not-found" component={NotFound} />

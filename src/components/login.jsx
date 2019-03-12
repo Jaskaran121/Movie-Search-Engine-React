@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Joi from "joi-browser";
 import Form from "./form";
 import { login } from "../services/authService";
@@ -20,8 +20,10 @@ class Login extends Form {
   doSubmit = async() => {
     try{
       const { data } = this.state;
-      await login(data.username,data.password); 
-      window.location ="/";
+      await login(data.username,data.password);
+      const{ state } = this.props.location;
+      console.log(state);
+      window.location = state ? state.from.pathname : "/";
     }
     catch(ex)
     {

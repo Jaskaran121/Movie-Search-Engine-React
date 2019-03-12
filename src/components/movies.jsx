@@ -40,7 +40,7 @@ class Movie extends Component {
     } catch (ex) {
       if (ex.response && ex.response.status === 400)
         window.alert("Movie already deleted from the database");
-        if (ex.response && ex.response.status === 401 || ex.response.status ===403)
+        if (ex.response && (ex.response.status === 401 || ex.response.status ===403))
         window.alert("Please Login First");
       this.setState({ movies: orginalMovies });
     }
@@ -102,7 +102,7 @@ class Movie extends Component {
     );
 
     const paginatedData = paginate(sortedMovies, currentPage, pageSize);
-
+    const { user } = this.props; 
     // if (this.state.movies.length === 0)
     //  return <h1>No movie in the database</h1>;
 
@@ -117,14 +117,14 @@ class Movie extends Component {
             />
           </div>
           <div className="col-6">
-            <Link
+            {user && <Link
               className="btn btn-primary"
               to="movies/new"
               role="button"
               style={{ margin: "2%" }}
             >
               New Movie
-            </Link>
+            </Link>}
             <p>{filteredMovies.length} movies are present in the database</p>
             <SearchBox value={searchQuery} onChange={this.handleSearch} />
             <MoviesTable
