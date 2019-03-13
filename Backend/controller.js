@@ -101,7 +101,7 @@ app.get("/api/users", verifyToken,(req, res) => {
 app.post("/api/login",(req,res) =>{
   Auth.login(req.body.email,req.body.password,function(type,result){
     if(type==="Success")
-      res.status(200).json({data:result});
+      res.status(200).json({data:result,user:req.body.email});
       else
       res.status(400).json({data:result});
   })

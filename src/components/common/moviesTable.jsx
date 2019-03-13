@@ -15,6 +15,7 @@ class MoviesTable extends Component {
   }
   render() {
     const { movies, onLike, onDelete} = this.props;
+    const user = localStorage.getItem('token');
     return (
       <div>
         <table className="table">
@@ -45,12 +46,13 @@ class MoviesTable extends Component {
                   <Like liked={movie.liked} onClick={() => onLike(movie)} />
                 </td>
                 <td>
-                  <button
+                  {user && <button
                     onClick={() => onDelete(movie._id)}
                     className="btn btn-danger btn-sm"
                   >
                     Delete
-                  </button>
+                  </button>}
+                  
                 </td>
               </tr>
             ))}
