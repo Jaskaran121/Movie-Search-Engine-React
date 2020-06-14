@@ -32,7 +32,7 @@ class App extends Component {
         <NavBar user = {this.state.user}/>
         <div className="content">
           <Switch>
-            <ProtectedRoute path="/movies/new" component = {MovieForm} user={this.state.user}></ProtectedRoute>
+            <ProtectedRoute path="/movies/new" component = {MovieForm} user ={this.state.user}></ProtectedRoute>
             <Route path="/movies/:id" component={MovieDetails} />
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
