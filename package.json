@@ -11,7 +11,7 @@
     "joi-browser": "^13.4.0",
     "jsonwebtoken": "^8.5.0",
     "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.19",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
     "react-bootstrap": "^0.32.4",
